@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klystic Intranet</title>
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+      color: #111733;
+      background: #fafcff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .page { position: relative; min-height: 100vh; width: 100%; }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+    @media (min-width: 640px) { .container { padding: 0 1.5rem; } }
+    @media (min-width: 768px) { .container { padding: 0 2rem; } }
+    @media (min-width: 1024px) { .container { padding: 0 2.5rem; } }
+    @media (min-width: 1280px) { .container { padding: 0 3rem; } }
+
+    /* BACKGROUND LAYER */
+    .bg-layer {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+    }
+    .bg-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, #ffffff 0%, #f7faff 55%, #fafcff 100%);
+    }
+    .blob { position: absolute; filter: blur(22px); opacity: 0.78; border-radius: 45%; }
+    .blob-1 {
+      top: -220px; left: -260px; width: 540px; height: 540px;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(30,144,255,0.55) 0%, rgba(30,144,255,0.25) 35%, transparent 70%),
+        conic-gradient(from 190deg at 30% 70%, rgba(91,92,255,0.55), rgba(138,43,226,0.55), rgba(255,62,165,0.45), rgba(255,138,61,0.4), rgba(30,144,255,0.55));
+      animation: float1 14s ease-in-out infinite;
+    }
+    .blob-2 {
+      bottom: -320px; left: -340px; width: 860px; height: 640px;
+      background:
+        conic-gradient(from 210deg at 10% 90%, rgba(30,144,255,0.6), rgba(91,92,255,0.5), rgba(138,43,226,0.55), rgba(255,62,165,0.5), rgba(255,138,61,0.45));
+      animation: float2 9s ease-in-out infinite;
+    }
+    .blob-3 {
+      bottom: -240px; right: -200px; width: 600px; height: 540px;
+      background: radial-gradient(ellipse 60% 50% at 80% 80%, rgba(255,62,165,0.35) 0%, rgba(255,138,61,0.25) 40%, transparent 70%);
+      animation: float1 14s ease-in-out infinite;
+      animation-delay: -6s;
+    }
+    @keyframes float1 {
+      0%,100% { transform: translate(0,0); }
+      50% { transform: translate(10px,-24px); }
+    }
+    @keyframes float2 {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-18px) rotate(1deg); }
+    }
+    .dots {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(91,92,255,0.14) 1px, transparent 0);
+      background-size: 22px 22px;
+      -webkit-mask-image: radial-gradient(ellipse at 0% 100%, black 40%, transparent 75%);
+      mask-image: radial-gradient(ellipse at 0% 100%, black 40%, transparent 75%);
+      opacity: 0.9;
+    }
+    .dots-r {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(255,62,165,0.12) 1px, transparent 0);
+      background-size: 20px 20px;
+      -webkit-mask-image: radial-gradient(ellipse at 100% 100%, black 40%, transparent 75%);
+      mask-image: radial-gradient(ellipse at 100% 100%, black 40%, transparent 75%);
+      opacity: 0.8;
+    }
+    .waves {
+      position: absolute; left: -10%; bottom: 0; width: 120%;
+      height: clamp(220px, 38vw, 420px);
+      opacity: 0.7;
+    }
+
+    /* HEADER */
+    .header {
+      display: none !important;
+    }
+    .header-inner { display: none !important; }
+    .logo-wrap   { display: none !important; }
+    .logo-link   { display: none !important; }
+    .logo-img    { display: none !important; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* HERO */
+    .hero {
+      position: relative; z-index: 10;
+      width: 100%;
+      padding-top: 5rem;
+      padding-bottom: 2rem;
+    }
+    @media (min-width: 640px)  { .hero { padding-top: 6rem; } }
+    @media (min-width: 768px)  { .hero { padding-top: 7rem; padding-bottom: 2.5rem; } }
+    @media (min-width: 1024px) { .hero { padding-top: 8rem; } }
+    .hero-inner { max-width: 864px; margin: 0 auto; text-align: center; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.375rem 1rem;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,1);
+      box-shadow: 0 12px 30px -10px rgba(30,144,255,0.25);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      font-size: 12px; font-weight: 600; color: #2f3a63;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 180ms forwards;
+    }
+    .pulse { position: relative; width: 8px; height: 8px; }
+    .pulse > span { position: absolute; inset: 0; border-radius: 9999px; background: #22c55e; }
+    .pulse > span:first-child { animation: ping 1.6s cubic-bezier(0,0,0.2,1) infinite; opacity: 0.7; }
+    @keyframes ping { 75%,100% { transform: scale(2.2); opacity: 0; } }
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(16px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .title {
+      margin-top: 1.5rem;
+      font-family: Sora, "Plus Jakarta Sans", system-ui, sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: #0a0f1f;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 280ms forwards;
+    }
+    .title br.xs-only { display: block; }
+    @media (min-width: 640px) { .title br.xs-only { display: none; } }
+    .brand-gradient {
+      background: linear-gradient(90deg,#1e90ff 0%,#5b5cff 30%,#8a2be2 55%,#ff3ea5 78%,#ff8a3d 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: shimmer 8s ease infinite;
+    }
+    @keyframes shimmer {
+      0%,100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    .spark {
+      display: inline-block; vertical-align: middle;
+      color: #ff8a3d; transform: translateY(-0.2em);
+      margin-left: 0.5rem;
+    }
+    .spark svg { width: 1.4em; height: 1.4em; }
+    @media (min-width: 768px) { .spark svg { width: 1.7em; height: 1.7em; } }
+
+    .subtitle {
+      margin: 1.25rem auto 0;
+      max-width: 42rem;
+      color: #5c6894;
+      font-size: 1rem;
+      line-height: 1.6;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 380ms forwards;
+    }
+    @media (min-width: 640px) { .subtitle { font-size: 1.125rem; } }
+
+    .stat-row {
+      margin-top: 2rem;
+      display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 480ms forwards;
+    }
+    .stat {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border-radius: 9999px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid #fff;
+      color: #1e264a;
+      font-weight: 500; font-size: 0.9rem;
+      box-shadow: 0 12px 30px -10px rgba(30,144,255,0.25);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .stat svg { width: 1rem; height: 1rem; stroke-width: 2; }
+    .stat .tab { font-variant-numeric: tabular-nums; }
+    .cta-gradient {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border-radius: 9999px;
+      background: linear-gradient(135deg,#1e90ff 0%,#5b5cff 30%,#8a2be2 55%,#ff3ea5 78%,#ff8a3d 100%);
+      background-size: 200% 200%;
+      animation: shimmer 8s ease infinite;
+      color: #fff; font-weight: 600; font-size: 0.9rem;
+      box-shadow: 0 20px 60px -15px rgba(91,92,255,0.35);
+    }
+    .cta-gradient svg { width: 1rem; height: 1rem; stroke-width: 2.1; }
+    @media (max-width: 639.98px) { .cta-gradient { display: none; } }
+
+    /* GRID */
+    .grid-section { position: relative; z-index: 10; width: 100%; padding-bottom: 5rem; }
+    @media (min-width: 768px) { .grid-section { padding-bottom: 6rem; } }
+    .grid-section .container { max-width: 1040px; }
+    .grid-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+    }
+    .grid-head h2 {
+      margin: 0;
+      font-family: Sora, system-ui, sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0a0f1f;
+      font-size: 1.25rem;
+    }
+    @media (min-width: 640px) { .grid-head h2 { font-size: 1.5rem; } }
+    .grid-head p { margin: 0.25rem 0 0; color: #5c6894; font-size: 0.9rem; }
+    .legend {
+      display: none;
+      align-items: center; gap: 0.25rem;
+      padding: 0.375rem;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid #fff;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      font-size: 0.75rem; font-weight: 600; color: #5c6894;
+    }
+    @media (min-width: 768px) { .legend { display: inline-flex; } }
+    .legend .pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.25rem 0.625rem; border-radius: 9999px;
+    }
+    .legend .sw { width: 6px; height: 6px; border-radius: 9999px; }
+    .sw.go { background: #EA4335; }
+    .sw.wm { background: #1e90ff; }
+    .sw.kp { background: #8a2be2; }
+    .sw.tk { background: #f97316; }
+    .sw.ua { background: #f59e0b; }
+    .sw.tc { background: #0891b2; }
+
+    .cards {
+      display: grid; grid-template-columns: 1fr; gap: 1.25rem;
+    }
+    @media (min-width: 640px) {
+      .cards { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    }
+    .card {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 1.5rem 1.75rem;
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset,
+                  0 8px 28px -8px rgba(30,144,255,0.18);
+      transition: transform .5s cubic-bezier(.22,1,.36,1),
+                  box-shadow .5s cubic-bezier(.22,1,.36,1);
+      opacity: 0; transform: translateY(16px);
+    }
+    .card:hover { transform: translateY(-8px) scale(1.02); }
+    .card.c1 { animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 560ms forwards; box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 8px 28px -8px rgba(234,67,53,.25); }
+    .card.c2 { animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 670ms forwards; box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 8px 28px -8px rgba(30,144,255,.3); }
+    .card.c3 { animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 780ms forwards; box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 8px 28px -8px rgba(138,43,226,.3); }
+    .card.c4 { animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 890ms forwards; box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 8px 28px -8px rgba(249,115,22,.28); }
+    .card.c5 { animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 1000ms forwards; box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 8px 28px -8px rgba(245,158,11,.28); }
+    .card.c6 { animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 1110ms forwards; box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 8px 28px -8px rgba(8,145,178,.28); }
+    .card.c1:hover { box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 30px 70px -25px rgba(234,67,53,.55); }
+    .card.c2:hover { box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 30px 70px -25px rgba(30,144,255,.6); }
+    .card.c3:hover { box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 30px 70px -25px rgba(138,43,226,.6); }
+    .card.c4:hover { box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 30px 70px -25px rgba(249,115,22,.58); }
+    .card.c5:hover { box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 30px 70px -25px rgba(245,158,11,.58); }
+    .card.c6:hover { box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 30px 70px -25px rgba(8,145,178,.58); }
+
+    .card .glow {
+      position: absolute; pointer-events: none;
+      top: -80px; right: -64px; width: 192px; height: 192px;
+      border-radius: 9999px; filter: blur(48px); opacity: 0;
+      transition: opacity .7s ease;
+    }
+    .card:hover .glow { opacity: 0.7; }
+    .card.c1 .glow { background: linear-gradient(135deg,#4285F4,#EA4335,#FBBC05); }
+    .card.c2 .glow { background: linear-gradient(135deg,#1e90ff,#5b5cff,#7b9dff); }
+    .card.c3 .glow { background: linear-gradient(135deg,#5b5cff,#8a2be2,#ff3ea5); }
+    .card.c4 .glow { background: linear-gradient(135deg,#f97316,#ec4899,#7c3aed); }
+    .card.c5 .glow { background: linear-gradient(135deg,#fbbf24,#fb923c,#f43f5e); }
+    .card.c6 .glow { background: linear-gradient(135deg,#22d3ee,#0ea5e9,#6366f1); }
+
+    .card-top {
+      position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+    }
+    .icon-tile {
+      width: 56px; height: 56px; flex-shrink: 0;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      box-shadow: 0 10px 25px -10px rgba(0,0,0,0.25);
+      ring: 1px solid rgba(255,255,255,0.8);
+    }
+    @media (min-width: 640px) {
+      .icon-tile { width: 60px; height: 60px; border-radius: 18px; }
+    }
+    .icon-tile svg { width: 28px; height: 28px; stroke-width: 2; }
+    .icon-tile img { width: 92%; height: 92%; object-fit: contain; image-rendering: -webkit-optimize-contrast; }
+    .icon-tile.go { background: linear-gradient(135deg,#4285F4 0%,#EA4335 60%,#FBBC05 100%); }
+    .icon-tile.wm { background: linear-gradient(135deg,#1e90ff 0%,#5b5cff 60%,#7b9dff 100%); }
+    .icon-tile.kp { background: #ffffff; box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(15,23,42,.06); border: 1px solid rgba(148,163,184,.18); }
+    .icon-tile.tk { background: #ffffff; box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(15,23,42,.06); border: 1px solid rgba(148,163,184,.18); }
+    .icon-tile.ua { background: linear-gradient(135deg,#fbbf24 0%,#fb923c 55%,#f43f5e 100%); color: #fff; }
+    .icon-tile.tc { background: linear-gradient(135deg,#22d3ee 0%,#0ea5e9 55%,#6366f1 100%); color: #fff; }
+
+    .arrow {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff; border: 1px solid #fff;
+      color: #8892b3;
+      box-shadow: 0 4px 10px -4px rgba(0,0,0,0.15);
+      transition: transform .4s ease, background-color .4s ease, color .4s ease, box-shadow .4s ease;
+    }
+    .arrow svg { width: 18px; height: 18px; stroke-width: 2.5; }
+    .card.c1:hover .arrow { background: linear-gradient(135deg,#4285F4,#EA4335,#FBBC05); color: #fff; transform: rotate(45deg); }
+    .card.c2:hover .arrow { background: linear-gradient(135deg,#1e90ff,#5b5cff,#7b9dff);     color: #fff; transform: rotate(45deg); }
+    .card.c3:hover .arrow { background: linear-gradient(135deg,#5b5cff,#8a2be2,#ff3ea5);    color: #fff; transform: rotate(45deg); }
+    .card.c4:hover .arrow { background: linear-gradient(135deg,#f97316,#ec4899,#7c3aed);    color: #fff; transform: rotate(45deg); }
+    .card.c5:hover .arrow { background: linear-gradient(135deg,#fbbf24,#fb923c,#f43f5e);    color: #fff; transform: rotate(45deg); }
+    .card.c6:hover .arrow { background: linear-gradient(135deg,#22d3ee,#0ea5e9,#6366f1);    color: #fff; transform: rotate(45deg); }
+
+    .card-body { position: relative; margin-top: 1.5rem; }
+    .title-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+    .title-row h3 {
+      margin: 0;
+      font-family: Sora, system-ui, sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #0a0f1f;
+      font-size: 1.2rem;
+    }
+    .tag {
+      display: inline-flex; align-items: center;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+    .tag.go { background: rgba(234,67,53,0.10); color: #c5221f; }
+    .tag.wm { background: rgba(30,144,255,0.10); color: #1e90ff; }
+    .tag.kp { background: rgba(138,43,226,0.10); color: #8a2be2; }
+    .tag.tk { background: rgba(249,115,22,0.10); color: #c2410c; }
+    .tag.ua { background: rgba(245,158,11,0.10); color: #b45309; }
+    .tag.tc { background: rgba(8,145,178,0.10); color: #0e7490; }
+    .tag.soon {
+      background: linear-gradient(90deg, rgba(245,158,11,.10), rgba(236,72,153,.10));
+      color: #b45309;
+      box-shadow: inset 0 0 0 1px rgba(245,158,11,.25);
+    }
+    .card-body p {
+      margin: 0.5rem 0 0;
+      color: #5c6894;
+      font-size: 0.92rem; line-height: 1.65;
+    }
+    .card-foot {
+      position: relative; margin-top: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; font-weight: 600; color: #8892b3;
+    }
+    .card-foot .host { max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .visit { display: inline-flex; align-items: center; gap: 4px; transition: transform .4s ease; }
+    .visit svg { width: 14px; height: 14px; stroke-width: 2.5; }
+    .card.c1:hover .visit { color: #c5221f; transform: translateX(4px); }
+    .card.c2:hover .visit { color: #1e90ff; transform: translateX(4px); }
+    .card.c3:hover .visit { color: #8a2be2; transform: translateX(4px); }
+    .card.c4:hover .visit { color: #c2410c; transform: translateX(4px); }
+    .card.c5:hover .visit { color: #b45309; transform: translateX(4px); }
+    .card.c6:hover .visit { color: #0e7490; transform: translateX(4px); }
+
+    .testing-chip {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.25rem 0.625rem; border-radius: 9999px;
+      border: 1px solid rgba(251,191,36,0.45);
+      background: linear-gradient(180deg, rgba(254,243,199,.85), rgba(255,251,235,.7));
+      color: #92400e;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.6) inset;
+    }
+    .testing-chip .dot {
+      width: 6px; height: 6px; border-radius: 9999px; background: #f59e0b;
+      box-shadow: 0 0 0 0 rgba(245,158,11, 0.6); animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(245,158,11,0.55); }
+      70%  { box-shadow: 0 0 0 10px rgba(245,158,11,0);   }
+      100% { box-shadow: 0 0 0 0 rgba(245,158,11,0);   }
+    }
+
+    .section-spacer { height: 3.5rem; }
+    @media (min-width: 768px) { .section-spacer { height: 4rem; } }
+
+    /* FOOTER */
+    .footer {
+      position: relative; z-index: 10;
+      padding-bottom: 2rem; padding-top: 1rem;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp 0.8s cubic-bezier(.22,1,.36,1) 1100ms forwards;
+    }
+    .footer .container { max-width: 1040px; }
+    .foot-row {
+      display: flex; flex-direction: column; gap: 0.75rem;
+      align-items: center; justify-content: space-between;
+      padding: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 16px;
+    }
+    @media (min-width: 640px) {
+      .foot-row { flex-direction: row; padding: 1.25rem 1.5rem; }
+    }
+    .foot-left {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: #5c6894; font-size: 12px; font-weight: 500;
+    }
+    .foot-left .dot {
+      width: 8px; height: 8px; border-radius: 9999px;
+      background: #5b5cff;
+      box-shadow: 0 0 0 3px rgba(91,92,255,0.15);
+    }
+    .foot-left b { color: #111733; font-weight: 700; }
+    .foot-right {
+      display: flex; align-items: center; gap: 4px;
+      color: #5c6894; font-size: 12px; font-weight: 500;
+    }
+    .heart { color: #ff3ea5; }
+    .heart svg { width: 14px; height: 14px; }
+
+    .c-blue { color: #1e90ff; }
+    .c-ind  { color: #5b5cff; }
+    .c-pur  { color: #8a2be2; }
+    .c-pin  { color: #ff3ea5; }
+    .c-org  { color: #ff8a3d; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="bg-layer" aria-hidden="true">
+      <div class="bg-gradient"></div>
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="dots"></div>
+      <div class="dots-r"></div>
+      <svg class="waves" viewBox="0 0 1440 420" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="wa" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#1e90ff" stop-opacity="0.22"/>
+            <stop offset="45%" stop-color="#5b5cff" stop-opacity="0.28"/>
+            <stop offset="75%" stop-color="#8a2be2" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#ff3ea5" stop-opacity="0.18"/>
+          </linearGradient>
+          <linearGradient id="wb" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#5b5cff" stop-opacity="0.18"/>
+            <stop offset="40%" stop-color="#8a2be2" stop-opacity="0.24"/>
+            <stop offset="75%" stop-color="#ff3ea5" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#ff8a3d" stop-opacity="0.22"/>
+          </linearGradient>
+          <linearGradient id="wc" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#8a2be2" stop-opacity="0.16"/>
+            <stop offset="50%" stop-color="#ff3ea5" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#ff8a3d" stop-opacity="0.2"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#wc)" d="M0,280 C240,340 360,220 560,260 C760,300 860,400 1080,340 C1260,290 1340,300 1440,320 L1440,420 L0,420 Z"/>
+        <path fill="url(#wb)" d="M0,320 C200,280 340,380 560,320 C780,260 900,360 1120,300 C1280,258 1360,340 1440,360 L1440,420 L0,420 Z"/>
+        <path fill="url(#wa)" d="M0,370 C220,330 360,410 580,360 C800,310 920,390 1140,340 C1300,302 1380,380 1440,394 L1440,420 L0,420 Z"/>
+      </svg>
+    </div>
+
+    <main style="position:relative; z-index:10; display:flex; flex-direction:column; min-height:100vh;">
+      <div style="flex:1 1 auto; display:flex; flex-direction:column;">
+        <section class="hero">
+          <div class="container hero-inner">
+            <span class="chip">
+              <span class="pulse" aria-hidden="true"><span></span><span></span></span>
+              Klystic Intranet <span style="opacity:0.5">·</span> Systems online
+            </span>
+            <h1 class="title" id="greetingTitle">
+              <span id="greet" class="c-blue">Good evening</span><br class="xs-only"/>
+              Welcome to <span class="brand-gradient">Klystic</span>
+              <span class="spark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3l1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8L12 3z"></path>
+                  <path d="M19 15l.7 2L22 18l-2.3.9L19 21l-.7-2.1L16 18l2.3-.9L19 15z"></path>
+                </svg>
+              </span>
+            </h1>
+            <p class="subtitle">
+              Your daily launchpad. Jump straight into search, inbox, and the
+              tools your team relies on — all from one beautifully organized
+              space.
+            </p>
+            <div class="stat-row">
+              <span class="stat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="c-ind" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
+                <span id="todayDate">—</span>
+              </span>
+              <span class="stat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="c-pin" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+                <span class="tab" id="nowTime">—</span>
+              </span>
+              <span class="cta-gradient">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 3l1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8L12 3z"></path>
+                </svg>
+                Let&rsquo;s build something great today
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid-section">
+          <div class="container">
+            <div class="grid-head">
+              <div>
+                <h2>Your quick links</h2>
+                <p>Click a tile to open in a new tab.</p>
+              </div>
+              <div class="legend" aria-hidden="true">
+                <span class="pill"><span class="sw go"></span> Google</span>
+                <span class="pill"><span class="sw wm"></span> Webmail</span>
+                <span class="pill"><span class="sw kp"></span> Keplerio</span>
+                <span class="pill"><span class="sw tk"></span> Tarklen</span>
+              </div>
+            </div>
+
+            <div class="cards">
+              <a class="card c1" href="https://www.google.com" target="_blank" rel="noopener noreferrer" aria-label="Open Google in a new tab">
+                <span class="glow" aria-hidden="true"></span>
+                <div class="card-top">
+                  <div class="icon-tile go" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path></svg>
+                  </div>
+                  <div class="arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="title-row">
+                    <h3>Google</h3>
+                    <span class="tag go">Open</span>
+                  </div>
+                  <p>Search the web, find docs, and jump straight into the Google ecosystem.</p>
+                </div>
+                <div class="card-foot">
+                  <span class="host">google.com</span>
+                  <span class="visit">Visit
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </span>
+                </div>
+              </a>
+
+              <a class="card c2" href="https://sv51.byethost51.org:2096/cpsess2166909244/webmail/jupiter/index.html?mailclient=none" target="_blank" rel="noopener noreferrer" aria-label="Open Webmail in a new tab">
+                <span class="glow" aria-hidden="true"></span>
+                <div class="card-top">
+                  <div class="icon-tile wm" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z"></path><path d="M22 8l-10 7L2 8"></path></svg>
+                  </div>
+                  <div class="arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="title-row">
+                    <h3>Webmail</h3>
+                    <span class="tag wm">Open</span>
+                  </div>
+                  <p>Check your inbox, manage conversations, and stay on top of messages.</p>
+                </div>
+                <div class="card-foot">
+                  <span class="host">sv51.byethost51.org:2096</span>
+                  <span class="visit">Visit
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </span>
+                </div>
+              </a>
+
+              <a class="card c3" href="https://keplerio.com" target="_blank" rel="noopener noreferrer" aria-label="Open Keplerio in a new tab">
+                <span class="glow" aria-hidden="true"></span>
+                <div class="card-top">
+                  <div class="icon-tile kp" aria-hidden="true">
+                    <img src="./Keplerio-logo.png" alt="Keplerio" draggable="false">
+                  </div>
+                  <div class="arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="title-row">
+                    <h3>Keplerio</h3>
+                    <span class="tag kp">Open</span>
+                  </div>
+                  <p>Head over to keplerio.com for analytics, dashboards, and project intelligence.</p>
+                </div>
+                <div class="card-foot">
+                  <span class="host">keplerio.com</span>
+                  <span class="visit">Visit
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </span>
+                </div>
+              </a>
+
+              <a class="card c4" href="https://tarklen.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Tarklen in a new tab">
+                <span class="glow" aria-hidden="true"></span>
+                <div class="card-top">
+                  <div class="icon-tile tk" aria-hidden="true">
+                    <img src="./Tarklen-logo.png" alt="Tarklen" draggable="false">
+                  </div>
+                  <div class="arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="title-row">
+                    <h3>Tarklen</h3>
+                    <span class="tag tk">Open</span>
+                  </div>
+                  <p>Project &amp; operations, planning &amp; coordination — all in one on tarklen.com.</p>
+                </div>
+                <div class="card-foot">
+                  <span class="host">tarklen.com</span>
+                  <span class="visit">Visit
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <div class="section-spacer"></div>
+
+        <section class="grid-section">
+          <div class="container">
+            <div class="grid-head">
+              <div>
+                <span class="testing-chip"><span class="dot"></span> Testing</span>
+                <h2 style="margin-top:.5rem">UAT &amp; Test Cases</h2>
+                <p>Staging environments and test documentation — endpoints will be linked here once provided.</p>
+              </div>
+              <div class="legend" aria-hidden="true">
+                <span class="pill"><span class="sw ua"></span> UAT Environment</span>
+                <span class="pill"><span class="sw tc"></span> Test Cases</span>
+              </div>
+            </div>
+
+            <div class="cards">
+              <a class="card c5" href="#" aria-label="UAT Environment — URL to be provided" aria-disabled="true" onclick="event.preventDefault()">
+                <span class="glow" aria-hidden="true"></span>
+                <div class="card-top">
+                  <div class="icon-tile ua" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16a5 5 0 01-5 5H9L3 21l2-6a5 5 0 01.5-3.3"></path><path d="M21 9a5 5 0 00-8.5-3.9"></path><path d="M3 9a5 5 0 015-5 5 5 0 014.2 2.1"></path><path d="M10 11h.01M14 11h.01M10 15a4 4 0 004 0"></path></svg>
+                  </div>
+                  <div class="arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="title-row">
+                    <h3>UAT Environment</h3>
+                    <span class="tag soon">Coming soon</span>
+                  </div>
+                  <p>User Acceptance Testing staging area. URL to be provided by the team.</p>
+                </div>
+                <div class="card-foot">
+                  <span class="host" style="color:#94a3b8; font-style: italic;">URL to be provided</span>
+                  <span class="visit">Visit
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </span>
+                </div>
+              </a>
+
+              <a class="card c6" href="#" aria-label="Test Cases — URL to be provided" aria-disabled="true" onclick="event.preventDefault()">
+                <span class="glow" aria-hidden="true"></span>
+                <div class="card-top">
+                  <div class="icon-tile tc" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6a2 2 0 012 2v2H7V4a2 2 0 012-2z"></path><path d="M7 6h10l-1 14a2 2 0 01-2 2H10a2 2 0 01-2-2L7 6z"></path><path d="M9 12h6M9 16h5"></path></svg>
+                  </div>
+                  <div class="arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="title-row">
+                    <h3>Test Cases</h3>
+                    <span class="tag soon">Coming soon</span>
+                  </div>
+                  <p>Regression &amp; UAT test suites, runbooks, and coverage reports. Link incoming.</p>
+                </div>
+                <div class="card-foot">
+                  <span class="host" style="color:#94a3b8; font-style: italic;">URL to be provided</span>
+                  <span class="visit">Visit
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"></path></svg>
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <div class="container">
+          <div class="foot-row">
+            <div class="foot-left">
+              <span class="dot"></span>
+              <span>© <span id="yr">2026</span> <b>Klystic</b> — Advanced Web Solutions · Software · SaaS</span>
+            </div>
+            <div class="foot-right">
+              Built with
+              <span class="heart" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"></path></svg>
+              </span>
+              for the team
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      function updateClock() {
+        var now = new Date();
+        var dayEl = document.getElementById("todayDate");
+        var timeEl = document.getElementById("nowTime");
+        if (dayEl) {
+          try { dayEl.textContent = now.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" }); } catch (_) {}
+        }
+        if (timeEl) {
+          try { timeEl.textContent = now.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hour12: true }); } catch (_) {}
+        }
+        var hr = now.getHours();
+        var g = document.getElementById("greet");
+        if (g) {
+          var text, cls;
+          if (hr < 5)       { text = "Burning the midnight oil"; cls = "c-pur"; }
+          else if (hr < 12) { text = "Good morning";           cls = "c-blue"; }
+          else if (hr < 17) { text = "Good afternoon";         cls = "c-org"; }
+          else if (hr < 21) { text = "Good evening";           cls = "c-pin"; }
+          else              { text = "Good night";             cls = "c-ind";  }
+          g.textContent = text;
+          g.className = cls;
+        }
+        var yr = document.getElementById("yr");
+        if (yr) yr.textContent = String(now.getFullYear());
+      }
+      updateClock();
+      setInterval(updateClock, 30 * 1000);
+    })();
+  </script>
+</body>
+</html>

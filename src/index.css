@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+    background-color: #fafcff;
+    color: #111733;
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .text-brand-gradient {
+    background: linear-gradient(
+      90deg,
+      #1e90ff 0%,
+      #5b5cff 30%,
+      #8a2be2 55%,
+      #ff3ea5 78%,
+      #ff8a3d 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 8s ease infinite;
+  }
+
+  .bg-brand-gradient {
+    background: linear-gradient(
+      135deg,
+      #1e90ff 0%,
+      #5b5cff 30%,
+      #8a2be2 55%,
+      #ff3ea5 78%,
+      #ff8a3d 100%
+    );
+    background-size: 200% 200%;
+    animation: shimmer 8s ease infinite;
+  }
+
+  .bg-wave-1 {
+    background: radial-gradient(
+        ellipse 80% 60% at 20% 10%,
+        rgba(30, 144, 255, 0.55) 0%,
+        rgba(30, 144, 255, 0.25) 35%,
+        transparent 70%
+      ),
+      conic-gradient(
+        from 190deg at 30% 70%,
+        rgba(91, 92, 255, 0.55),
+        rgba(138, 43, 226, 0.55),
+        rgba(255, 62, 165, 0.45),
+        rgba(255, 138, 61, 0.4),
+        rgba(30, 144, 255, 0.55)
+      );
+    filter: blur(18px);
+  }
+
+  .bg-wave-2 {
+    background: conic-gradient(
+      from 210deg at 10% 90%,
+      rgba(30, 144, 255, 0.6),
+      rgba(91, 92, 255, 0.5),
+      rgba(138, 43, 226, 0.55),
+      rgba(255, 62, 165, 0.5),
+      rgba(255, 138, 61, 0.45)
+    );
+    filter: blur(22px);
+  }
+
+  .bg-wave-3 {
+    background: radial-gradient(
+      ellipse 60% 50% at 80% 80%,
+      rgba(255, 62, 165, 0.35) 0%,
+      rgba(255, 138, 61, 0.25) 40%,
+      transparent 70%
+    );
+    filter: blur(16px);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 8px 28px -8px rgba(30, 144, 255, 0.18);
+  }
+
+  .card-ring-google {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 8px 28px -8px rgba(234, 67, 53, 0.25);
+  }
+  .card-ring-google:hover {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 30px 70px -25px rgba(234, 67, 53, 0.55);
+  }
+
+  .card-ring-webmail {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 8px 28px -8px rgba(30, 144, 255, 0.3);
+  }
+  .card-ring-webmail:hover {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 30px 70px -25px rgba(30, 144, 255, 0.6);
+  }
+
+  .card-ring-keplerio {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 8px 28px -8px rgba(138, 43, 226, 0.3);
+  }
+  .card-ring-keplerio:hover {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 30px 70px -25px rgba(138, 43, 226, 0.6);
+  }
+
+  .card-ring-knoten {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 8px 28px -8px rgba(20, 199, 196, 0.3);
+  }
+  .card-ring-knoten:hover {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 30px 70px -25px rgba(20, 199, 196, 0.6);
+  }
+
+  .dot-texture {
+    background-image: radial-gradient(
+        circle at 1px 1px,
+        rgba(91, 92, 255, 0.14) 1px,
+        transparent 0
+      );
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at 0% 100%, black 40%, transparent 75%);
+  }
+
+  .dot-texture-right {
+    background-image: radial-gradient(
+        circle at 1px 1px,
+        rgba(255, 62, 165, 0.12) 1px,
+        transparent 0
+      );
+    background-size: 20px 20px;
+    mask-image: radial-gradient(ellipse at 100% 100%, black 40%, transparent 75%);
+  }
+}
